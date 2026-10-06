@@ -1,0 +1,122 @@
+<div class="road" aria-hidden="true">
+  <div class="track">
+    <div class="truck-wrap" id="truck">
+      <svg class="truck" viewBox="0 0 220 70" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="108" cy="66" rx="100" ry="3" fill="#000" opacity="0.25" />
+        <g class="body">
+          <rect x="0" y="8" width="140" height="42" rx="3" fill="#f5c518" />
+          <rect x="4" y="12" width="132" height="34" fill="#172849" />
+          <rect x="0" y="50" width="210" height="5" fill="#0f1c36" />
+          <path d="M145 50 V18 Q145 10 153 10 H190 Q198 10 202 20 L210 34 V50 Z" fill="#ffffff" stroke="#172849" stroke-width="1.5" />
+          <path d="M182 16 H192 Q196 16 199 22 L203 32 H182 Z" fill="#29a3dd" opacity="0.85" />
+          <rect x="147" y="38" width="62" height="3" fill="#f5c518" />
+          <rect x="147" y="42" width="62" height="2" fill="#29a3dd" />
+        </g>
+        {[30, 55, 180].map((cx) => (
+          <g class="wheel">
+            <circle cx={cx} cy="57" r="9" fill="#0f1c36" />
+            <circle cx={cx} cy="57" r="3.5" fill="#cbd5e1" />
+            <line x1={cx} y1="50" x2={cx} y2="54" stroke="#cbd5e1" stroke-width="2" />
+          </g>
+        ))}
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .road {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    height: 2.25rem;
+    background: rgb(15 28 54 / 0.85);
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .track {
+    position: absolute;
+    inset-inline: 1rem;
+    bottom: 0.35rem;
+    container-type: inline-size;
+  }
+
+  .truck-wrap {
+    width: 5.5rem;
+    transform: translateX(calc(var(--truck, 0) * (100cqw - 100%)));
+    will-change: transform;
+  }
+
+  .truck {
+    display: block;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .wheel {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: rotate(calc(var(--truck, 0) * 1800deg));
+  }
+
+  .truck-wrap.is-moving .body {
+    animation: bob 0.35s ease-in-out infinite alternate;
+  }
+
+  @keyframes bob {
+    to { transform: translateY(-1px); }
+  }
+
+  @media (min-width: 640px) {
+    .truck-wrap { width: 7rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .truck-wrap.is-moving .body { animation: none; }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const truck = document.getElementById("truck");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let target = 0;
+  let current = 0;
+  let running = false;
+
+  function readScroll() {
+    const max = root.scrollHeight - window.innerHeight;
+    target = max > 0 ? window.scrollY / max : 0;
+  }
+
+  function frame() {
+    // Ease toward the target: smaller number = smoother, slower glide
+    current += (target - current) * (reduceMotion ? 1 : 0.08);
+
+    const moving = Math.abs(target - current) > 0.0005;
+    truck?.classList.toggle("is-moving", moving);
+    root.style.setProperty("--truck", current.toFixed(4));
+
+    if (moving) {
+      requestAnimationFrame(frame);
+    } else {
+      current = target;
+      running = false;
+    }
+  }
+
+  function start() {
+    readScroll();
+    if (!running) {
+      running = true;
+      requestAnimationFrame(frame);
+    }
+  }
+
+  window.addEventListener("scroll", start, { passive: true });
+  window.addEventListener("resize", start);
+  start();
+</script>

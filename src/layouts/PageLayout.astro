@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  intro?: string;
+}
+
+const { title, description, intro } = Astro.props;
+---
+
+<BaseLayout title={`${title} | Mews Transport`} description={description}>
+  <section class="bg-navy-900 py-16">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="h-1 w-12 rounded bg-yellow-brand"></div>
+      <h1 class="mt-4 text-4xl font-bold text-white">{title}</h1>
+      {intro && <p class="mt-4 max-w-2xl text-lg text-navy-100">{intro}</p>}
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-7xl px-4 py-16">
+    <slot />
+  </div>
+</BaseLayout>

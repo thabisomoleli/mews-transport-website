@@ -1,0 +1,72 @@
+---
+import { Image } from "astro:assets";
+import aboutImage from "@/assets/images/about-sunset.jpg";
+
+const stats = [
+  { value: "15+", label: "Years of experience" },
+  { value: "50+", label: "Trucks in our fleet" },
+  { value: "10k+", label: "Deliveries completed" },
+  { value: "24/7", label: "Customer support" },
+];
+---
+
+<section id="about" class="overflow-hidden bg-white py-24">
+  <div class="mx-auto grid w-full max-w-7xl gap-16 px-4 lg:grid-cols-2 lg:items-center">
+    <!-- Left: photo -->
+    <div class="relative mx-auto w-full max-w-md lg:max-w-none" data-reveal="left">
+      <!-- Yellow accent block behind the photo -->
+      <div class="absolute -bottom-4 -left-4 h-full w-full rounded-2xl bg-yellow-brand"></div>
+
+      <Image
+        src={aboutImage}
+        alt="Mews Transport trucks lined up on the road at sunset"
+        class="relative aspect-[4/5] w-full rounded-2xl object-cover shadow-xl"
+        widths={[400, 600, 800]}
+        sizes="(min-width: 1024px) 40vw, 90vw"
+        loading="lazy"
+      />
+
+      <!-- Floating badge -->
+      <div class="absolute -right-4 top-8 rounded-xl bg-navy-900 px-5 py-4 shadow-lg sm:-right-8">
+        <p class="text-3xl font-bold text-yellow-brand">15+</p>
+        <p class="text-xs text-navy-100">Years on the road</p>
+      </div>
+    </div>
+
+    <!-- Right: text and stats -->
+    <div>
+      <p class="font-semibold uppercase tracking-wide text-sky-brand" data-reveal="right">
+        About us
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-navy-900 sm:text-4xl" data-reveal="right" style="--delay: 150ms">
+        Moving Southern Africa forward, one load at a time
+      </h2>
+
+      <div class="mt-6 space-y-4 text-lg text-gray-700" data-reveal="up" style="--delay: 300ms">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur blandit tempus porttitor.
+          Donec sed odio dui. Maecenas sed diam eget risus varius blandit sit amet non magna.
+        </p>
+        <p>
+          Vestibulum id ligula porta felis euismod semper. Nullam quis risus eget urna mollis ornare
+          vel eu leo. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+        </p>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {stats.map((stat, i) => (
+          <div
+            class="rounded-xl border border-navy-100 p-4 text-center"
+            data-reveal="zoom"
+            style={`--delay: ${450 + i * 120}ms`}
+          >
+            <p class="text-2xl font-bold text-navy-900">{stat.value}</p>
+            <p class="mt-1 text-xs text-gray-600">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
