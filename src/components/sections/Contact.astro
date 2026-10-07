@@ -2,11 +2,7 @@
 import { site } from "@/config/site";
 import Button from "@/components/ui/Button.astro";
 
-const contacts = [
-  { label: "Phone", value: site.phone.display, href: site.phone.href },
-  { label: "Email", value: site.email, href: `mailto:${site.email}` },
-  { label: "Address", value: site.address, href: undefined },
-];
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.address)}&output=embed`;
 ---
 
 <section id="contact" class="overflow-hidden bg-navy-900 py-24">
@@ -25,33 +21,55 @@ const contacts = [
       </p>
     </div>
 
-    <!-- Contact cards -->
-    <div class="mt-12 grid gap-6 sm:grid-cols-3">
-      {contacts.map((item, i) => {
-        const Tag = item.href ? "a" : "div";
-        return (
-          <Tag
-            href={item.href}
-            class:list={[
-              "rounded-2xl border border-navy-700 bg-navy-800 p-6",
-              item.href && "transition hover:border-sky-brand hover:bg-navy-700",
-            ]}
-            data-reveal="zoom"
-            style={`--delay: ${400 + i * 150}ms`}
-          >
-            <p class="text-sm font-semibold uppercase tracking-wide text-sky-brand">{item.label}</p>
-            <p class="mt-2 break-all text-lg font-semibold text-white">{item.value}</p>
-          </Tag>
-        );
-      })}
-    </div>
+    <div class="mt-12 grid gap-6 lg:grid-cols-2">
+      <!-- Box 1: contact info -->
+      <div
+        class="flex flex-col justify-between rounded-2xl border border-navy-700 bg-navy-800 p-8"
+        data-reveal="left"
+        style="--delay: 400ms"
+      >
+        <ul class="space-y-6">
+          <li>
+            <p class="text-sm font-semibold uppercase tracking-wide text-sky-brand">Phone</p>
+            <a href={site.phone.href} class="mt-1 block text-lg font-semibold text-white hover:text-yellow-brand">
+              {site.phone.display}
+            </a>
+          </li>
+          <li>
+            <p class="text-sm font-semibold uppercase tracking-wide text-sky-brand">Email</p>
+            <a href={`mailto:${site.email}`} class="mt-1 block break-all text-lg font-semibold text-white hover:text-yellow-brand">
+              {site.email}
+            </a>
+          </li>
+          <li>
+            <p class="text-sm font-semibold uppercase tracking-wide text-sky-brand">Address</p>
+            <p class="mt-1 text-lg font-semibold text-white">{site.address}</p>
+          </li>
+        </ul>
 
-    <!-- Buttons -->
-    <div class="mt-12 flex flex-wrap gap-4" data-reveal="up" style="--delay: 850ms">
-      <Button href={`mailto:${site.email}?subject=Quote%20request`}>Get a quote</Button>
-      <Button href={`mailto:${site.email}?subject=Website%20enquiry`} variant="outline-light">
-        Send an enquiry
-      </Button>
+        <div class="mt-10 flex flex-wrap gap-4">
+          <Button href={`mailto:${site.email}?subject=Quote%20request`}>Get a quote</Button>
+          <Button href={`mailto:${site.email}?subject=Website%20enquiry`} variant="outline-light">
+            Send an enquiry
+          </Button>
+        </div>
+      </div>
+
+      <!-- Box 2: map -->
+      <div
+        class="overflow-hidden rounded-2xl border border-navy-700 bg-navy-800"
+        data-reveal="right"
+        style="--delay: 550ms"
+      >
+        <iframe
+          src={mapSrc}
+          title={`Map showing ${site.name}'s location`}
+          class="h-full min-h-[350px] w-full"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
   </div>
 </section>
