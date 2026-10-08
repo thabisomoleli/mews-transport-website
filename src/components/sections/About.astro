@@ -11,10 +11,22 @@ const stats = [
 ---
 
 <section id="about" class="overflow-hidden bg-white py-24">
-  <div class="mx-auto grid w-full max-w-7xl gap-16 px-4 lg:grid-cols-2 lg:items-center">
-    <!-- Left: photo -->
-    <div class="relative mx-auto mb-4 ml-4 w-[calc(100%-1rem)] max-w-md lg:max-w-none" data-reveal="left">
-      <!-- Yellow accent block behind the photo -->
+  <div class="mx-auto grid w-full max-w-7xl gap-y-10 px-4 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6">
+    <!-- 1. Heading: first on mobile, top-right on desktop -->
+    <div class="lg:col-start-2 lg:row-start-1 lg:self-end">
+      <p class="font-semibold uppercase tracking-wide text-sky-brand" data-reveal="right">
+        About us
+      </p>
+      <h2 class="mt-2 text-3xl font-bold text-navy-900 sm:text-4xl" data-reveal="right" style="--delay: 150ms">
+        Moving Southern Africa forward, one load at a time
+      </h2>
+    </div>
+
+    <!-- 2. Photo: under the heading on mobile, left column on desktop -->
+    <div
+      class="relative mx-auto mb-4 ml-4 w-[calc(100%-1rem)] max-w-md lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:max-w-none lg:self-center"
+      data-reveal="left"
+    >
       <div class="absolute -bottom-4 -left-4 h-full w-full rounded-2xl bg-yellow-brand"></div>
 
       <Image
@@ -26,24 +38,15 @@ const stats = [
         loading="lazy"
       />
 
-      <!-- Floating badge -->
       <div class="absolute right-4 top-8 rounded-xl bg-navy-900 px-5 py-4 shadow-lg lg:-right-8">
         <p class="text-3xl font-bold text-yellow-brand">15+</p>
         <p class="text-xs text-navy-100">Years on the road</p>
       </div>
     </div>
 
-    <!-- Right: text and stats -->
-    <div>
-      <p class="font-semibold uppercase tracking-wide text-sky-brand" data-reveal="right">
-        About us
-      </p>
-
-      <h2 class="mt-2 text-3xl font-bold text-navy-900 sm:text-4xl" data-reveal="right" style="--delay: 150ms">
-        Moving Southern Africa forward, one load at a time
-      </h2>
-
-      <div class="mt-6 space-y-4 text-lg text-gray-700" data-reveal="up" style="--delay: 300ms">
+    <!-- 3. Text and stats: under the photo on mobile, bottom-right on desktop -->
+    <div class="lg:col-start-2 lg:row-start-2 lg:self-start">
+      <div class="space-y-4 text-lg text-gray-700" data-reveal="up" style="--delay: 300ms">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur blandit tempus porttitor.
           Donec sed odio dui. Maecenas sed diam eget risus varius blandit sit amet non magna.
@@ -54,7 +57,6 @@ const stats = [
         </p>
       </div>
 
-      <!-- Stats -->
       <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map((stat, i) => (
           <div
